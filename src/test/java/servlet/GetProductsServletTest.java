@@ -8,9 +8,7 @@ import sql.ProductDatabase;
 
 import javax.servlet.http.HttpServletResponse;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GetProductsServletTest extends ServletTest {
 

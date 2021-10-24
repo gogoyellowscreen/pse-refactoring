@@ -1,17 +1,26 @@
 package servlet;
 
+import sql.ProductDatabase;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
 
 /**
  * @author akirakozov
  */
 public class AddProductServlet extends HttpServlet {
+
+    private final ProductDatabase database;
+
+    /*visible for testing*/ AddProductServlet() {
+        database = ProductDatabase.forTesting();
+    }
+
+    public AddProductServlet(String name) {
+        database = ProductDatabase.fromName(name);
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -19,13 +28,7 @@ public class AddProductServlet extends HttpServlet {
         long price = Long.parseLong(request.getParameter("price"));
 
         try {
-            try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
-                String sql = "INSERT INTO PRODUCT " +
-                        "(NAME, PRICE) VALUES (\"" + name + "\"," + price + ")";
-                Statement stmt = c.createStatement();
-                stmt.executeUpdate(sql);
-                stmt.close();
-            }
+            database.addProduct(name, price);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

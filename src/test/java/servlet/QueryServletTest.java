@@ -7,7 +7,6 @@ import product.Product;
 import sql.ProductDatabase;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
