@@ -1,5 +1,6 @@
 package servlet;
 
+import command.Command;
 import product.Product;
 import sql.ProductDatabase;
 
@@ -25,15 +26,8 @@ public class GetProductsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        try {
-            response.getWriter().println("<html><body>");
-            for (Product p : database.getProducts()) {
-                response.getWriter().println(p.name + "\t" + p.price + "</br>");
-            }
-            response.getWriter().println("</body></html>");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        Command.fromNameAndDatabase("get", database)
+                .printResult(response.getWriter());
 
         response.setContentType("text/html");
         response.setStatus(HttpServletResponse.SC_OK);
